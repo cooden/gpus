@@ -1,0 +1,233 @@
+/* ===== 全局 ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+    /* 从原图提取的颜色 */
+    --title-color: #204080;
+    --name-color: #1a1a2e;
+    --desc-color: #8a8a8a;
+    --arch-color: #9a9a9a;
+    --bg-top: #daeafc;
+    --bg-bottom: #ffffff;
+    --card-bg: #ffffff;
+    --divider: #eef2f7;
+}
+
+body {
+    font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: linear-gradient(180deg, var(--bg-top) 0%, var(--bg-bottom) 220px);
+    color: var(--name-color);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+}
+
+.page {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 28px 24px 48px;
+}
+
+/* ===== 标题 ===== */
+.header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.main-title {
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: var(--title-color);
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+}
+
+.lang-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 6px 14px;
+    border: 1.5px solid #c8d4e8;
+    border-radius: 999px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #94a3b8;
+    transition: all 0.25s ease;
+}
+
+.lang-toggle:hover {
+    border-color: var(--title-color);
+    color: var(--title-color);
+}
+
+.lang-toggle .active {
+    color: var(--title-color);
+    font-weight: 800;
+}
+
+.lang-divider { color: #cbd5e1; }
+
+/* ===== 时间线 ===== */
+.timeline {
+    position: relative;
+    padding-left: 0;
+}
+
+/* 单个条目 */
+.gpu-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    padding: 10px 0;
+    position: relative;
+    opacity: 0;
+    transform: translateY(12px);
+    animation: fadeUp 0.5s ease forwards;
+}
+
+.gpu-row + .gpu-row {
+    border-top: 1px solid var(--divider);
+}
+
+@keyframes fadeUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 左侧：圆点 + 年份 + 架构 */
+.gpu-year-block {
+    flex: 0 0 130px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.year-dot {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--year-color);
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.9), 0 0 0 5px var(--year-color);
+}
+
+.year-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.15;
+}
+
+.year-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--year-color);
+}
+
+.year-arch {
+    font-size: 0.78rem;
+    color: var(--arch-color);
+    margin-top: 3px;
+    font-weight: 500;
+}
+
+/* 显卡图片 / 3D 容器 */
+.gpu-visual {
+    flex: 0 0 300px;
+    height: 116px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.gpu-visual img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* 3D 占位层：可替换为 Three.js canvas */
+.gpu-3d-layer {
+    position: absolute;
+    inset: 0;
+    display: none; /* 默认隐藏，启用 3D 时显示并隐藏 img */
+    align-items: center;
+    justify-content: center;
+}
+
+.gpu-3d-layer canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* 当启用 3D 时 */
+.gpu-visual.use-3d img { display: none; }
+.gpu-visual.use-3d .gpu-3d-layer { display: flex; }
+
+/* 右侧文字：名称 + 描述 */
+.gpu-text {
+    flex: 1;
+    min-width: 0;
+    padding: 0 16px;
+}
+
+.gpu-name {
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: var(--name-color);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+}
+
+.gpu-desc {
+    font-size: 0.88rem;
+    color: var(--desc-color);
+    line-height: 1.5;
+}
+
+/* 奖项徽章 */
+.gpu-award {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    background: var(--year-color);
+    color: #fff;
+    border-radius: 20px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.award-icon {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 900px) {
+    .gpu-row {
+        flex-wrap: wrap;
+        padding: 16px 0;
+    }
+    .gpu-year-block { flex: 0 0 100%; margin-bottom: 10px; }
+    .gpu-visual { flex: 0 0 100%; height: 90px; margin-bottom: 10px; }
+    .gpu-text { flex: 1 1 100%; padding: 0; margin-bottom: 10px; }
+    .gpu-award { flex: 0 0 auto; }
+}
+
+@media (max-width: 600px) {
+    .main-title { font-size: 1.8rem; }
+    .lang-toggle { position: static; transform: none; margin-top: 12px; }
+    .header { display: flex; flex-direction: column; align-items: center; }
+    .year-num { font-size: 1.25rem; }
+    .gpu-name { font-size: 1.1rem; }
+}
